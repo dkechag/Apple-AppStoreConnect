@@ -212,13 +212,15 @@ subtest 'Optional parameters' => sub {
 subtest 'Test cover' => sub {
     is(Apple::AppStoreConnect::_build_url(url => $base, params=>{}), $base, "Blank params");
 
-    my $asc2 = Apple::AppStoreConnect->new(%params, key => $key, curl => 1);
-    my $out = $asc2->get_apps();
-    is($out, $ref2, 'Received curl response');
+    if ($] >= 5.012) {
+        my $asc2 = Apple::AppStoreConnect->new(%params, key => $key, curl => 1);
+        my $out  = $asc2->get_apps();
+        is($out, $ref2, 'Received curl response');
 
-    $json = '"test"';
-    $out = $asc->get_apps();
-    is($out, "test", 'No ref response');
+        $json = '"test"';
+        $out  = $asc->get_apps();
+        is($out, "test", 'No ref response');
+    }
 };
 
 done_testing;
