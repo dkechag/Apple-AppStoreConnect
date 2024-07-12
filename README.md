@@ -4,7 +4,7 @@ Apple::AppStoreConnect - Apple App Store Connect API client
 
 # VERSION
 
-Version 0.1
+Version 0.12
 
 # SYNOPSIS
 
@@ -36,15 +36,16 @@ for usage and all possible requests.
 ## `new`
 
       my $asc = Apple::AppStoreConnect->new(
-          key_id     => $key_id,
-          key        => $private_key?,
-          key_file   => $private_key_pem?,
-          issuer     => "57246542-96fe-1a63-e053-0824d011072a",
-          scope      => \@scope?,
-          timeout    => $timeout_sec?,
-          expiration => $expire_secs?,
-          ua         => $lwp_ua?,
-          curl       => $use_curl?
+          key_id      => $key_id,
+          key         => $private_key?,
+          key_file    => $private_key_pem?,
+          issuer      => "57246542-96fe-1a63-e053-0824d011072a",
+          scope       => \@scope?,
+          timeout     => $timeout_sec?,
+          expiration  => $expire_secs?,
+          ua          => $lwp_ua?,
+          curl        => $use_curl?,
+          jwt_payload => {%extra_payload}
       );
     
 
@@ -76,6 +77,11 @@ is the default method for the API requests.
 - `expiration` : Token expiration time in seconds. Tokens are cached until
 there are less than 10 minutes left to expiration. Default: `900` - the API will
 not accept more than 20 minutes expiration time for most requests.
+- `jwt_payload` : Extra items to append to the JWT payload. Allows extending
+the module to support more/newer versions of Apple APIs. For example, for the Apple
+Store Server API you'd need to add:
+
+        jwt_payload => {bid => $bundle_id}
 
 # METHODS
 
@@ -152,6 +158,19 @@ See API documentation for `path` support (e.g. `builds`, `appAvailability`,
 `appPriceSchedule`, `customerReviews` etc.).
 - `params` : Any other query params that you need to pass
 (see [API documentation](https://developer.apple.com/documentation/appstoreconnectapi)).
+
+# NOTES
+
+## POST/PATCH/DELETE requests
+
+Note that currently only GET requests are implemented, as that is what I needed.
+However, POST/PATCH/DELETE can be added upon request.
+
+## 403 Unauthorized etc errors
+
+If you suddenly start getting unauthorized errors with a token that should be valid,
+log onto App Store Connect and see if you have any documents pending approval (e.g
+tax documents, new terms etc).
 
 # AUTHOR
 
