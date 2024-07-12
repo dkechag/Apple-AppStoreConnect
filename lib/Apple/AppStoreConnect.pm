@@ -46,6 +46,8 @@ Apple::AppStoreConnect provides basic access to the Apple App Store Connect API.
 Please see the L<official API documentation|https://developer.apple.com/documentation/appstoreconnectapi>
 for usage and all possible requests.
 
+You can also use it with the L<Apple Store Server API>.
+
 =head1 CONSTRUCTOR
 
 =head2 C<new>
@@ -361,6 +363,22 @@ sub _process_data {
 }
 
 =head1 NOTES
+
+=head2 Apple Store Server API
+
+You can use this module with the L<Apple Store Server API|https://developer.apple.com/documentation/appstoreserverapi>
+by passing your app's bundle ID to the JWT payload. So there is just one addition to the constructor call:
+
+    my $assa = Apple::AppStoreConnect->new(
+        issuer      => $API_key_issuer,
+        key_id      => $key_id,
+        key         => $private_key,
+        jwt_payload => {bid => $bundle_id}
+    );
+
+You can then pass custon Store Server API requests:
+
+    my $res = $assa->get(url => "https://api.storekit.itunes.apple.com/inApps/v2/history/$transactionId");
 
 =head2 POST/PATCH/DELETE requests
 
