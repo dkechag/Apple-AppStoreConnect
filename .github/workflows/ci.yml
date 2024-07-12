@@ -11,7 +11,7 @@ jobs:
       fail-fast: false
       matrix:
         perl-version:
-          - '5.38'
+          - '5.40'
           - '5.36'
           - '5.32'
           - '5.28'
@@ -19,7 +19,7 @@ jobs:
           - '5.20'
           - '5.16'
           - '5.12'
-          - '5.8'
+          - '5.10'
 
     container:
       image: perldocker/perl-tester:${{ matrix.perl-version }}
