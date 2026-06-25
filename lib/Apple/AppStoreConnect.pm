@@ -654,7 +654,7 @@ by passing your app's bundle ID to the JWT payload. So there is just one additio
         jwt_payload => {bid => $bundle_id}
     );
 
-You can then pass custon Store Server API requests:
+You can then pass custom Store Server API requests:
 
     my $res = $assa->get(url => "https://api.storekit.itunes.apple.com/inApps/v2/history/$transactionId");
 
